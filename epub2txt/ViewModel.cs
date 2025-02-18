@@ -93,6 +93,9 @@ namespace epub2txt
 			{
 				var buffer = System.IO.File.ReadAllText(xhtml);
 
+				// 実施順番に意味がある
+				// (入れ替え不可)
+
 				// ヘッダーを除去する
 				buffer = Regex.Replace(buffer, @"<head>[\s\S]*?</head>", "");
 
@@ -102,8 +105,11 @@ namespace epub2txt
 				// 全てのタグを除去する
 				buffer = Regex.Replace(buffer, @"<[^>]*>", "");
 
-				// 改行コードのみを除去する
+				// 改行コードのみの行を除去する
 				buffer = Regex.Replace(buffer, @"^\s*$\r?\n", "", RegexOptions.Multiline);
+
+				// tabを除去する
+				buffer = buffer.Replace("\t", "");
 
 				sb.Append(buffer);
 			}
